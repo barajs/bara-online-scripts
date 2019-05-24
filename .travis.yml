@@ -5,7 +5,7 @@ cache:
         - $HOME/.ipfs
         
 before_cache:
-  - rm -rf $HOME/.ipfs
+  - sudo rm -rf $HOME/.ipfs
   
 services:
   - docker
