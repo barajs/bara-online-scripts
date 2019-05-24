@@ -5,7 +5,7 @@ services:
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run --name bara_publisher -d nampdn/node-ipfs > container_id
+    - docker run --name bara_publisher -d nampdn/node-ipfs ipfs daemon --init > container_id
     - docker ps
 
 script:
