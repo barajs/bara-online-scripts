@@ -6,7 +6,7 @@
 # AUTH_KEY: CloudFlare Auth Key
 # ZONE_ID: CloudFlare Zone Id
 
-declare -a IPFS_SCRIPTS=("${PWD}/scripts/ceph-centos.sh")
+declare -a IPFS_SCRIPTS=("/app/scripts/ceph-centos.sh")
 declare -a IPFS_DNSLINK=("_dnslink.ceph-centos.scripts.barajs.dev")
 
 find_dns_record_id() {
