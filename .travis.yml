@@ -3,9 +3,6 @@ language: bash
 cache:
     directories:
         - $HOME/.ipfs
-        
-before_cache:
-  - sudo rm -rf $HOME/.ipfs
   
 services:
   - docker
