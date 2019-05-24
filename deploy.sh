@@ -115,8 +115,8 @@ deploy() {
 
 main() {
 	echo "The process will be completed in $TIMEOUT seconds!"
-
-	deploy & timeout -t $TIMEOUT ipfs daemon --init;
+	deploy;
+	exit 0;
 }
 
 main
