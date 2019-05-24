@@ -2,20 +2,20 @@ language: bash
 
 cache:
     directories:
-        - /home/travis/.ipfs/
+        - $HOME/.ipfs
 services:
   - docker
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run --name bara_publisher \
-      -v ${PWD}:/project \
-      -v /home/travis/.ipfs:/ipfs \
+    - docker run -d --name bara_publisher \
       -e IPFS_PATH=/ipfs \
       -e AUTH_KEY=$AUTH_KEY \
       -e EMAIL=$EMAIL \
       -e ZONE_ID=$ZONE_ID \
-      -d nampdn/node-ipfs \
+      -v ${PWD}:/project \
+      -v /home/travis/.ipfs:/ipfs \
+      nampdn/node-ipfs:latest \
       /usr/local/bin/ipfs daemon --init > container_id
     - docker ps
 
