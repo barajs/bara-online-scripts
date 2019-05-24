@@ -9,14 +9,14 @@ services:
 before_install:
     - docker pull nampdn/node-ipfs:latest
     - docker run -d --name bara_publisher \
-      -e IPFS_PATH=/ipfs \
-      -e AUTH_KEY=$AUTH_KEY \
-      -e EMAIL=$EMAIL \
-      -e ZONE_ID=$ZONE_ID \
-      -v ${PWD}:/project \
-      -v /home/travis/.ipfs:/ipfs \
-      nampdn/node-ipfs:latest \
-      /usr/local/bin/ipfs daemon --init > container_id
+          -e IPFS_PATH=/ipfs \
+          -e AUTH_KEY=$AUTH_KEY \
+          -e EMAIL=$EMAIL \
+          -e ZONE_ID=$ZONE_ID \
+          -v ${PWD}:/project \
+          -v $HOME/.ipfs:/ipfs \
+          nampdn/node-ipfs:latest \
+          /usr/local/bin/ipfs daemon --init-profile server
     - docker ps
 
 script:
