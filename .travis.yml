@@ -3,12 +3,16 @@ language: bash
 cache:
     directories:
         - $HOME/.ipfs
+        
+before_cache:
+  - rm -rf $HOME/.ipfs
+  
 services:
   - docker
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run -it --name bara_publisher nampdn/node-ipfs:latest ipfs daemon --init
+    - docker run -d --name bara_publisher nampdn/node-ipfs:latest ipfs daemon --init
     - docker ps
 
 script:
