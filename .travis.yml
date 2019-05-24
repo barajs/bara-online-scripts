@@ -8,9 +8,7 @@ services:
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run -d --name bara_publisher \
-          nampdn/node-ipfs:latest \
-          /usr/local/bin/ipfs daemon --init
+    - docker run -it --name bara_publisher nampdn/node-ipfs:latest ipfs daemon --init
     - docker ps
 
 script:
