@@ -4,9 +4,9 @@ services:
   - docker
 
 before_install:
-- docker pull nampdn/node-ipfs:latest
-- container_id=$(docker run -d nampdn/node-ipfs /bin/sh -c "apk add bash jq curl outils-md5")
+    - docker pull nampdn/node-ipfs:latest
+    - docker run -d nampdn/node-ipfs /bin/sh -c "apk add bash jq curl outils-md5" > container_id
 
 script:
-- echo "Running container: ${container_id}"
-- docker exec -it $container_id /bin/bash deploy.sh
+    - docker logs `cat container_id`
+    - docker exec -it `cat container_id` /bin/bash deploy.sh
