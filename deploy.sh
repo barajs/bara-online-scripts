@@ -6,7 +6,7 @@
 # AUTH_KEY: CloudFlare Auth Key
 # ZONE_ID: CloudFlare Zone Id
 
-declare -a IPFS_SCRIPTS=("ceph-centos.sh")
+declare -a IPFS_SCRIPTS=("./scripts/ceph-centos.sh")
 declare -a IPFS_DNSLINK=("_dnslink.ceph-centos.scripts.barajs.dev")
 
 find_dns_record_id() {
@@ -103,9 +103,9 @@ deploy() {
 	echo "Waiting for IPFS daemon in ${WAIT_FOR_IPFS}s..."
 	sleep $WAIT_FOR_IPFS
 	swarm_connect
-	for i in "./scripts/${!IPFS_SCRIPTS[@]}"
+	for i in "${!IPFS_SCRIPTS[@]}"
 	do
-		hash=$(add_to_ipfs "./scripts/${IPFS_SCRIPTS[i]}")
+		hash=$(add_to_ipfs "${IPFS_SCRIPTS[i]}")
 		echo "Added script ${IPFS_SCRIPTS[i]} to IPFS with hash: $hash"
   	update_dns "${IPFS_DNSLINK[i]}" $hash
 		echo ""
