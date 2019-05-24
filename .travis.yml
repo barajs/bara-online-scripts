@@ -1,5 +1,8 @@
 language: bash
 
+cache:
+    directories:
+        - /home/travis/.ipfs/
 services:
   - docker
 
