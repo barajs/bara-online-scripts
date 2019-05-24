@@ -15,4 +15,4 @@ script:
     - sleep 1m
     - docker logs bara_publisher
     - docker exec bara_publisher /bin/sh -c "apk add bash jq curl outils-md5"
-    - docker exec bara_publisher /bin/bash -c "chmod +x /app/deploy.sh && ./app/deploy.sh"
+    - docker exec bara_publisher /bin/bash -c "chmod +x /app/deploy.sh && ./app/deploy.sh" && exit 0;
