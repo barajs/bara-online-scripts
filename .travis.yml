@@ -8,10 +8,15 @@ services:
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run --name bara_publisher -v /home/travis/.ipfs:/ipfs -e IPFS_PATH=/ipfs -d nampdn/node-ipfs /usr/local/bin/ipfs daemon --init > container_id
+    - docker run --name bara_publisher \
+      -v ${PWD}:/project
+      -v /home/travis/.ipfs:/ipfs \
+      -e IPFS_PATH=/ipfs \
+      -d nampdn/node-ipfs \
+      /usr/local/bin/ipfs daemon --init > container_id
     - docker ps
 
 script:
     - docker logs bara_publisher
     - docker exec bara_publisher /bin/sh -c "apk add bash jq curl outils-md5"
-    - docker exec bara_publisher /bin/bash deploy.sh
+    - docker exec bara_publisher /bin/bash /project/deploy.sh
