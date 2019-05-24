@@ -4,7 +4,7 @@
 #
 # One line install command:
 # Syntax: curl https://cent-ceph.scripts.barajs.dev | bash -s <ceph_username> <ceph_password>
-# Example: curl https://cent-ceph.scripts.barajs.me | bash -s centeph "^MySecret*Password$"
+# Example: curl https://cent-ceph.scripts.barajs.dev | bash -s centeph "^MySecret*Password$"
 #
 # Have fun with Ceph!
 
@@ -23,7 +23,7 @@ print_step() {
 }
 
 param_user=$1
-username=${param_user:"centeph"}
+username="centeph"
 
 # CREATE CEPH USER
 print_section "PREPARING CEPH USER";
@@ -31,7 +31,7 @@ if [ $(grep -c '^username:' /etc/passwd) -eq 0 ]; then
   useradd $username
   usermod -G wheel cent
   usermod --password "^Cent*CEPH$" $username
-  print_step "Added user: ${username}";
+  print_step "Added user: ${username} with password '^Cent*CEPH$'";
 else
   print_step "Skip user creation: ${username} existed!"
 fi
