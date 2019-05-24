@@ -9,7 +9,8 @@ services:
 before_install:
     - docker pull nampdn/node-ipfs:latest
     - docker run --name bara_publisher \
-      -v ${PWD}:/project
+      --env-file <(env | grep -vE '\r|\n' | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_|AUTH_KEY|ZONE_ID|EMAIL') \
+      -v ${PWD}:/project \
       -v /home/travis/.ipfs:/ipfs \
       -e IPFS_PATH=/ipfs \
       -d nampdn/node-ipfs \
