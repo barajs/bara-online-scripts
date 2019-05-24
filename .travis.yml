@@ -8,4 +8,5 @@ before_install:
 - container_id=$(docker run -d nampdn/node-ipfs /bin/sh -c "apk add bash jq curl outils-md5")
 
 script:
+- echo "Running container: ${container_id}"
 - docker exec -it $container_id /bin/bash deploy.sh
