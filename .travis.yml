@@ -8,7 +8,7 @@ services:
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run --name bara_publisher -d nampdn/node-ipfs ipfs daemon --init > container_id
+    - docker run --name bara_publisher -v /home/travis/.ipfs:/ipfs -e IPFS_PATH=/ipfs -d nampdn/node-ipfs /usr/local/bin/ipfs daemon --init > container_id
     - docker ps
 
 script:
