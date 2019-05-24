@@ -17,5 +17,5 @@ before_install:
 script:
     - docker logs bara_publisher
     - docker exec bara_publisher /bin/sh -c "apk add bash jq curl outils-md5"
-    - docker exec bara_publisher /app/deploy.sh
+    - docker exec bara_publisher /bin/bash -c /app/deploy.sh
 # --env-file <(env | grep -vE "\r|\n" | grep -iE "DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_|AUTH_KEY|ZONE_ID|EMAIL") \
