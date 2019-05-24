@@ -5,7 +5,7 @@ services:
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run -d nampdn/node-ipfs container_id
+    - docker run -d nampdn/node-ipfs > container_id
 
 script:
     - docker logs `cat container_id`
