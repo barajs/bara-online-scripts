@@ -12,8 +12,7 @@ services:
 
 before_install:
     - docker pull nampdn/node-ipfs:latest
-    - docker run -d --name bara_publisher nampdn/node-ipfs:latest ipfs daemon --init
-    - docker ps
+    - docker run -d --name bara_publisher -e ${PWD}:/project nampdn/node-ipfs:latest daemon --init
 
 script:
     - docker logs bara_publisher
