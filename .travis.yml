@@ -6,8 +6,11 @@ services:
 before_install:
     - docker pull nampdn/node-ipfs:latest
     - docker run -d nampdn/node-ipfs > container_id
+    - docker ps
 
 script:
+    - cat $container_id
+    - docker ps
     - docker logs `cat container_id`
     - docker exec `cat container_id` /bin/sh -c "apk add bash jq curl outils-md5"
     - docker exec `cat container_id` /bin/bash deploy.sh
