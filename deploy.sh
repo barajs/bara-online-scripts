@@ -13,7 +13,7 @@ find_dns_record_id() {
 	local RECORD_NAME=$1
 	set -x;
 	echo $(curl -sSL -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?type=TXT&name=$RECORD_NAME" \
-     -H "X-Auth-Email: $EMAIL" \
+     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
      -H "X-Auth-Key: $AUTH_KEY" \
      -H "Content-Type: application/json")
      set +x;
@@ -27,7 +27,7 @@ purge_cache() {
 
 	# Purge cache
 	result=$(curl -sSL -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
-     -H "X-Auth-Email: $EMAIL" \
+     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
      -H "X-Auth-Key: $AUTH_KEY" \
      -H "Content-Type: application/json" \
      --data '{"files":["'"$host_url"'"]}' | jq '.success')
@@ -81,7 +81,7 @@ update_dns() {
 	record_id=$(find_dns_record_id $record_name | jq --raw-output '.result[0].id')
 
 	result=$(curl -sSL -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$record_id" \
-     -H "X-Auth-Email: $EMAIL" \
+     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
      -H "X-Auth-Key: $AUTH_KEY" \
      -H "Content-Type: application/json" \
      --data '{"type":"TXT","name":"'"$record_name"'","content":"'"$content"'","ttl":1,"proxied":false}' \
