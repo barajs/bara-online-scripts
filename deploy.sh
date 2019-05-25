@@ -13,7 +13,7 @@ find_dns_record_id() {
 	local RECORD_NAME=$1
 	set -x;
 	echo $(curl -sSL -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?type=TXT&name=$RECORD_NAME" \
-     -H "X-Auth-Email: $CLOUDFLARE_EMAIL" \
+     -H "X-Auth-Email: ${CLOUDFLARE_EMAIL}" \
      -H "X-Auth-Key: $AUTH_KEY" \
      -H "Content-Type: application/json")
      set +x;
