@@ -25,6 +25,9 @@ print_step() {
 param_user=$1
 username="centeph"
 
+echo "Username: $1"
+echo "Password: $2"
+
 # CREATE CEPH USER
 print_section "PREPARING CEPH USER";
 if [ $(grep -c '^username:' /etc/passwd) -eq 0 ]; then
