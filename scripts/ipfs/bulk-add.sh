@@ -1,6 +1,6 @@
 # IPFS Bulk Add
-# Usage:
-# Example: curl curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- <information_directory>
+# Usage: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- <information_directory>
+# Example: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- /home/user/my-data
 
 #!/bin/bash
 
