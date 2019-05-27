@@ -6,7 +6,7 @@
 
 read -p "Enter directory [/warehouse/information]: " info_dir
 
-declare info_dir_path=${info_dir:'~/warehouse/master/information'}
+declare info_dir_path=$info_dir
 declare add_num=12
 
 declare arr_encrypt_path=()
