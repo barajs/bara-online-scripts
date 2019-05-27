@@ -95,7 +95,7 @@ deploy() {
 	echo "Waiting for IPFS daemon in ${WAIT_FOR_IPFS}s..."
 	sleep $WAIT_FOR_IPFS
 	swarm_connect
-  hash=$(ipfs add -Qr ./scripts)
+  hash=$(ipfs add -Q -r /app/scripts)
   update_dns "_dnslink.scripts.barajs.dev" $hash
   echo "Added script ${IPFS_SCRIPTS[i]} to IPFS with hash: $hash"
 	ipfs shutdown
