@@ -1,11 +1,18 @@
 language: bash
 
+cache:
+    directories:
+        - $HOME/.ipfs
+  
 services:
   - docker
 
 before_install:
-- docker pull nampdn/node-ipfs:latest
-- container_id=$(docker run -d nampdn/node-ipfs /bin/sh -c "apk add bash jq curl outils-md5)
+    - docker pull nampdn/node-ipfs:latest
+    - docker run -d --name bara_publisher --env-file <(env | grep -vE "\r|\n" | grep -iE "WAIT_FOR_IPFS|TIMEOUT|DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_|AUTH_KEY|ZONE_ID|CLOUDFLARE_EMAIL") -e CLOUDFLARE_EMAIL="$CLOUDFLARE_EMAIL" -e IPFS_PATH=/ipfs -v ${PWD}:/app -p "0.0.0.0:4001":4001 nampdn/node-ipfs:latest daemon --init
 
 script:
-- docker exec -it $container_id /bin/bash _deploy.sh
+    - sleep 1m
+    - docker logs bara_publisher
+    - docker exec bara_publisher /bin/sh -c "apk add bash jq curl outils-md5"
+    - docker exec bara_publisher /bin/bash -c "chmod +x /app/deploy.sh && ./app/deploy.sh"
