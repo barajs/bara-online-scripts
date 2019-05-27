@@ -32,14 +32,9 @@ purge_cache() {
 	do
 		# Try to fetch the new hash
 		echo "Fetch new content of $ipfs_hash..."
-		new_content=$(curl -sSL -X GET "https://cloudflare-ipfs.com/ipfs/$ipfs_hash" | md5)
+		new_content=$(curl -sSL -X GET "https://cloudflare-ipfs.com/ipfs/$ipfs_hash")
 
-		# Refetch after purge cache
-		echo "Refetching domain $host to see new content..."
-		domain_content=$(curl -sSL -X GET $host_url | md5)
-
-		echo "[Compare] New: $new_content - Domain: $domain_content"
-		if [ "$new_content" == "$domain_content" ]; then
+		if [[ $new_content == *"$ipfs_hash"* ]]; then
 			echo "The cache of $host hash been updated successfully!"
 			break;
 		else
