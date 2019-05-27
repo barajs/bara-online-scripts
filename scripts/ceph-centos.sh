@@ -3,8 +3,8 @@
 # A script to setup initial CentOS Ceph Node
 #
 # One line install command:
-# Syntax: curl https://cent-ceph.scripts.barajs.dev | bash -s <ceph_username> <ceph_password>
-# Example: curl https://cent-ceph.scripts.barajs.dev | bash -s centeph "^MySecret*Password$"
+# Syntax: curl https://ceph-centos.scripts.barajs.dev | bash -s <ceph_username> <ceph_password>
+# Example: curl https://ceph-centos.scripts.barajs.dev | bash -s centeph "MySecret*Passw0rd"
 #
 # Have fun with Ceph!
 
