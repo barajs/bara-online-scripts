@@ -6,9 +6,6 @@
 # AUTH_KEY: CloudFlare Auth Key
 # ZONE_ID: CloudFlare Zone Id
 
-declare -a IPFS_SCRIPTS=("/app/scripts/ceph-centos.sh" "/app/scripts/setup-linux.sh")
-declare -a IPFS_DNSLINK=("_dnslink.ceph-centos.scripts.barajs.dev" "_dnslink.setup-linux.scripts.barajs.dev")
-
 find_dns_record_id() {
 	local RECORD_NAME=$1
 	echo $(curl -sSL -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?type=TXT&name=$RECORD_NAME" \
@@ -89,13 +86,8 @@ update_dns() {
 	verify_cache $record_name $hash
 }
 
-add_to_ipfs() {
-	hash=$(ipfs add -q $1)
-	echo $hash
-}
-
 swarm_connect() {
-  echo "\nConnecting swarm to the main nodes..."
+  echo "Connecting swarm to the main nodes..."
   curl -sSL https://cloudflare-ipfs.com/ipns/find.vgm.tv | jq -r --raw-output '.nodes[] | .multiaddress' | xargs -n1 ipfs swarm connect
 }
 
@@ -103,18 +95,13 @@ deploy() {
 	echo "Waiting for IPFS daemon in ${WAIT_FOR_IPFS}s..."
 	sleep $WAIT_FOR_IPFS
 	swarm_connect
-	for i in "${!IPFS_SCRIPTS[@]}"
-	do
-		hash=$(add_to_ipfs "${IPFS_SCRIPTS[i]}")
-		echo "Added script ${IPFS_SCRIPTS[i]} to IPFS with hash: $hash"
-  	update_dns "${IPFS_DNSLINK[i]}" $hash
-		echo ""
-	done
+  hash=$(ipfs add -Q -r /app/scripts)
+  update_dns "_dnslink.scripts.barajs.dev" $hash
+  echo "Added script ${IPFS_SCRIPTS[i]} to IPFS with hash: $hash"
 	ipfs shutdown
 }
 
 main() {
-	echo "The process will be completed in $TIMEOUT seconds!"
 	deploy;
 	exit 0;
 }
