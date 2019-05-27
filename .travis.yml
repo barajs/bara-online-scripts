@@ -16,3 +16,5 @@ script:
     - sleep 30s
     - docker logs bara_publisher
     - docker exec bara_publisher /bin/bash -c "chmod +x /app/deploy.sh && ./app/deploy.sh"
+
+if: (tag =~ ^v) AND ((branch = master) OR (branch = tag))
