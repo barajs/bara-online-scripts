@@ -93,7 +93,7 @@ pinata() {
      -H "pinata_api_key: $PINATA_API_KEY" \
      -H "pinata_secret_api_key: $PINATA_SECRET_API_KEY" \
      -H "Content-Type: application/json" \
-     --data '{"hashToPin":'"$hash"'}')
+     --data '{"hashToPin":"'"$hash"'"}')
   set +x;
   echo "Pinata result: $result"
 }
