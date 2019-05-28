@@ -90,12 +90,11 @@ pinata() {
   hash=$1
   set -x;
   ipfs_id=$(ipfs id | jq '.Addresses')
-  echo "Ipfs ID: $ipfs_id"
   result=$(curl -sSL -X POST "https://api.pinata.cloud/pinning/pinHashToIPFS" \
      -H "pinata_api_key: $PINATA_API_KEY" \
      -H "pinata_secret_api_key: $PINATA_SECRET_API_KEY" \
      -H "Content-Type: application/json" \
-     --data '{"hashToPin":"'"$hash"'", "pinataMetadata": {"name": "'"bara-scripts-${hash:0:5}"'"}}')
+     --data '{"hashToPin":"'"$hash"'", "host_nodes": '"$ipfs_id"', "pinataMetadata": {"name": "'"bara-scripts-${hash:0:5}"'"}}')
   set +x;
   echo "Pinata result: $result"
 }
