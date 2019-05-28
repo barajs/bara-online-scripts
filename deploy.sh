@@ -89,7 +89,7 @@ swarm_connect() {
 pinata() {
   hash=$1
   set -x;
-  result=$(curl -sSL -X PUT "https://api.pinata.cloud/pinning/pinHashToIPFS" \
+  result=$(curl -sSL -X POST "https://api.pinata.cloud/pinning/pinHashToIPFS" \
      -H "pinata_api_key: $PINATA_API_KEY" \
      -H "pinata_secret_api_key: $PINATA_SECRET_API_KEY" \
      -H "Content-Type: application/json" \
