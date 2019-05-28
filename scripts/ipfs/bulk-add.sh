@@ -1,7 +1,8 @@
+#
 # IPFS Bulk Add
 # Usage: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- <information_directory>
-# Example: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- /home/user/my-data
-
+# Example: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- /home/user/my-info-data
+#
 #!/bin/bash
 
 declare info_dir_path=$1
