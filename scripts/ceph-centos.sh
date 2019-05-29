@@ -23,7 +23,9 @@ print_step() {
 }
 
 param_user=$1
-username="centeph"
+param_password=$2
+username=${param_user:-"centeph"}
+password=${param_password:-"MySecret*Passw0rd"}
 
 echo "Username: $1"
 echo "Password: $2"
@@ -32,16 +34,16 @@ echo "Password: $2"
 print_section "PREPARING CEPH USER";
 if [ $(grep -c '^username:' /etc/passwd) -eq 0 ]; then
   useradd $username
-  usermod -G wheel cent
-  usermod --password "^Cent*CEPH$" $username
-  print_step "Added user: ${username} with password '^Cent*CEPH$'";
+  usermod -G wheel $username
+  usermod --password $password $username
+  print_step "Added user: ${username} with password '${password}'";
 else
   print_step "Skip user creation: ${username} existed!"
 fi
 
 # TURN OFF SUDO PASSWORD
 print_section "TURN OF CEPH USER PASSWORD";
-echo -e 'Defaults:'$username' !requiretty\n'$centeph' ALL = (root) NOPASSWD:ALL' | tee /etc/sudoers.d/ceph
+echo -e 'Defaults:'$username' !requiretty\n'$username' ALL = (root) NOPASSWD:ALL' | tee /etc/sudoers.d/ceph
 print_step "Turned off ${username} sudo password!"
 
 # CHANGE PERMISSION ON CEPH
