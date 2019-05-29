@@ -76,7 +76,7 @@ update_dns() {
      -H "Content-Type: application/json" \
      --data '{"type":"TXT","name":"'"$record_name"'","content":"'"$content"'","ttl":1,"proxied":false}' \
 		| jq '.success')
-  echo "Update record $record_name ($record_id): $result"
+        echo "Update record $record_name ($record_id): $result"
 	purge_cache $record_name $hash
 	verify_cache $record_name $hash
 }
@@ -86,13 +86,29 @@ swarm_connect() {
   curl -sSL https://cloudflare-ipfs.com/ipns/find.vgm.tv | jq -r --raw-output '.nodes[] | .multiaddress' | xargs -n1 ipfs swarm connect
 }
 
+pinata() {
+  hash=$1
+  # ipfs_id=$(ipfs id | jq '.Addresses') // TODO make correct array string for POST
+  echo "Pining on Pinata Gateway...";
+  set -x;
+  result=$(curl -sSL -X POST "https://api.pinata.cloud/pinning/pinHashToIPFS" \
+     -H "pinata_api_key: $PINATA_API_KEY" \
+     -H "pinata_secret_api_key: $PINATA_SECRET_API_KEY" \
+     -H "Content-Type: application/json" \
+     --data '{"hashToPin":"'"$hash"'", "pinataMetadata": {"name": "'"bara-scripts-${hash:0:5}"'"}}')
+  set +x;
+  echo "Pinata result: $result";
+}
+
 deploy() {
 	echo "Waiting for IPFS daemon in ${WAIT_FOR_IPFS}s..."
 	sleep $WAIT_FOR_IPFS
 	swarm_connect
-  hash=$(ipfs add -Q -r /app/scripts)
-  update_dns "_dnslink.scripts.barajs.dev" $hash
-  echo "Added script ${IPFS_SCRIPTS[i]} to IPFS with hash: $hash"
+        hash=$(ipfs add -Q -r /app/scripts)
+	pinata $hash
+        update_dns "_dnslink.scripts.barajs.dev" $hash
+        echo "Added script ${IPFS_SCRIPTS[i]} to IPFS with hash: $hash"
+  	sleep $WAIT_FOR_IPFS
 	ipfs shutdown
 }
 
