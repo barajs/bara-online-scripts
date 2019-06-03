@@ -1,20 +1,33 @@
-#
-# IPFS Bulk Add
-# Usage: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- <information_directory>
-# Example: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- /home/user/my-info-data
-#
 #!/bin/bash
 
-declare info_dir_path=$1
+#
+# IPFS Bulk Add via Docker Command
+# Usage: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- <information_directory> <container_root_related_to_directory>
+# Example: curl https://scripts.barajs.dev/ipfs/bulk-add.sh | bash -s -- /home/user/information/some_dir /container/encrypted/some_dir
+#
+
+export info_dir_path=$1
+export root_container_path=$2
 declare add_num=12
 
 declare arr_encrypt_path=()
 declare arr_thumbnail_path=()
 
+if [ -z "info_dir_path" ]; then
+    echo "Please provide host \"information\" meta directory!" && exit 1;
+fi;
+
+if [ -z "$root_container_path" ]; then
+    echo "Please provide root container path as 2nd parameter!" && exit 1;
+fi;
+
 parallel_add() {
     echo ""
-    echo "$1"
-    docker exec ipfs-node ipfs add -rQp $1
+    real_path=$1
+    truncate_path=$(echo "$real_path" | sed 's/encrypted/information/g' | sed "s@$info_dir_path@@")
+    container_path=$(readlink -m $(echo $root_container_path/$truncate_path | sed 's/\/\//\//g'))
+    echo "Adding to ipfs at $container_path"
+    docker exec vgm-ipfs.web.1 ipfs add -rQp $container_path
 }
 export -f parallel_add
 
@@ -25,9 +38,10 @@ add_encrypted() {
     echo "|| WALKING... in '$info_dir_path' ||"
     echo "================================================="
     echo ""
-    
+
     for f in $(find $info_dir_path -name 'media.vgmhi' -type f);
     do
+	echo "$"
         _counter_add=`expr $_counter_add + 1`
         temp_path=${f/%media.vgmhi/}
         new_path=${temp_path/information/encrypted}
@@ -71,7 +85,7 @@ add_arr_encrypt() {
         done
 
         echo ""
-        echo "Parallel adding... "
+        echo "Parallel adding... $info_dir_path"
         parallel --tagstring '\033[30;3{=$_=++$::color%8=}m' parallel_add ::: $_arg_path
         echo ""
 
@@ -134,7 +148,7 @@ add_arr_thumbnails() {
         done
 
         echo ""
-        echo "Parallel adding... "
+        echo "Parallel adding... $info_dir_path "
         parallel --tagstring '\033[30;3{=$_=++$::color%8=}m' parallel_add ::: $_arg_path
         echo ""
 
@@ -149,22 +163,22 @@ add_arr_thumbnails() {
 add_api() {
     echo ""
     echo "========================================"
-    echo "|| ADDING... api at 'data/master/api' ||"
+    echo "|| ADDING... api at '/vgm-data/api' ||"
     echo "========================================"
     echo ""
 
-    docker exec ipfs-node ipfs add -rQp 'data/master/api'
+    docker exec vgm-ipfs.web.1 ipfs add -rQp '/vgm-data/api'
     echo ""
 }
 
 add_information() {
     echo ""
     echo "========================================================"
-    echo "|| ADDING... information at 'data/master/information' ||"
+    echo "|| ADDING... information at '/vgm-data/information' ||"
     echo "========================================================"
     echo ""
 
-    docker exec ipfs-node ipfs add -rQp 'data/master/information'
+    docker exec vgm-ipfs.web.1 ipfs add -rQp '/vgm-data/information'
     echo ""
 }
 
