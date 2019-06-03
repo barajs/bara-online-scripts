@@ -6,13 +6,9 @@
 
 setup() {
   # Prepare the machine
-  yum -y install yum-plugin-priorities
-  sed -i -e "s/\]$/\]\npriority=1/g" /etc/yum.repos.d/CentOS-Base.repo
-  yum -y install epel-release
-  sed -i -e "s/\]$/\]\npriority=5/g" /etc/yum.repos.d/epel.repo
-  sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/epel.repo
-  yum -y install centos-release-scl-rh centos-release-scl
-  yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+  yum -y install epel-release yum-plugin-priorities \
+https://download.ceph.com/rpm-luminous/el7/noarch/ceph-release-1-1.el7.noarch.rpm
+  sed -i -e "s/enabled=1/enabled=1\npriority=1/g" /etc/yum.repos.d/ceph.repo
   yum -y update
 
   # Install dependencies
