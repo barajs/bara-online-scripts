@@ -6,13 +6,13 @@
 
 setup() {
   # Prepare the machine
-  yum -y install epel-release yum-plugin-priorities \
+  sudo yum -y install epel-release yum-plugin-priorities \
   https://download.ceph.com/rpm-luminous/el7/noarch/ceph-release-1-1.el7.noarch.rpm
   sed -i -e "s/enabled=1/enabled=1\npriority=1/g" /etc/yum.repos.d/ceph.repo
-  yum -y update
+  sudo yum -y update
 
   # Install dependencies
-  yum install -y git zsh tmux nmon nload htop python-setuptools python2
+  sudo yum install -y git zsh tmux nmon nload htop python-setuptools python2
 
   # Install core softwares
   ## ZSH
