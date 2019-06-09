@@ -12,7 +12,7 @@ setup() {
   sudo yum -y update
 
   # Install dependencies
-  sudo yum install -y git zsh tmux nmon nload htop python-setuptools python2 python-pkg-resources
+  sudo yum install -y git zsh tmux wget sshfs nmon nload htop python-setuptools python2 python-pkg-resources
 
   # Install core softwares
   ## ZSH
