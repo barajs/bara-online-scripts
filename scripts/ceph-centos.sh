@@ -35,7 +35,7 @@ print_section "PREPARING CEPH USER";
 if [ $(grep -c "^${username}:" /etc/passwd) -eq 0 ]; then
   useradd $username
   usermod -G wheel $username
-  usermod --password $password $username
+  usermod --password "$password" $username
   print_step "Added user: ${username} with password '${password}'";
 else
   print_step "Skip user creation: ${username} existed!"
