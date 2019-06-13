@@ -32,7 +32,7 @@ echo "Password: $2"
 
 # CREATE CEPH USER
 print_section "PREPARING CEPH USER";
-if [ $(grep -c '^username:' /etc/passwd) -eq 0 ]; then
+if [ $(grep -c "^${username}:" /etc/passwd) -eq 0 ]; then
   useradd $username
   usermod -G wheel $username
   usermod --password $password $username
